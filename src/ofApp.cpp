@@ -50,38 +50,38 @@ void ofApp::draw()
     ofSetColor(255);
     grabber.draw(0, 0);
 
-
+    
     // Face tracking App
-     ofNoFill();
      for(unsigned int i = 0; i < finder.blobs.size(); i++)
      {
-     // Ignore small "faces".
-     if (finder.blobs[i].boundingRect.getArea() > 150 * 150)
-     {
-     ofRectangle rect = finder.blobs[i].boundingRect;
+         // Ignore small "faces".
+         if (finder.blobs[i].boundingRect.getArea() > 150 * 150)
+         {   ofNoFill();
+             ofRectangle rect = finder.blobs[i].boundingRect;
+             
+             float xNose = rect.getCenter().x;
+             float yNose = rect.getCenter().y;
+             float yEye = rect.getCenter().y - 0.11 * rect.getHeight();
+             float yMouth = rect.getCenter().y + 0.24 * rect.getHeight();
+             float xEyeOffset = 0.18 * rect.getWidth();
 
-     float xNose = rect.getCenter().x;
-     float yNose = rect.getCenter().y;
-     float yEye = rect.getCenter().y - 0.11 * rect.getHeight();
-     float yMouth = rect.getCenter().y + 0.24 * rect.getHeight();
-     float xEyeOffset = 0.18 * rect.getWidth();
+             float xEyeRight = xNose + xEyeOffset;
+             float xEyeLeft  = xNose - xEyeOffset;
+             /*
+             ofDrawCircle(xEyeRight, yEye, 10);
+             ofDrawCircle(xEyeLeft, yEye, 10);
 
-     float xEyeRight = xNose + xEyeOffset;
-     float xEyeLeft  = xNose - xEyeOffset;
+             ofDrawCircle(xNose, yNose, 10);
 
-     ofDrawCircle(xEyeRight, yEye, 10);
-     ofDrawCircle(xEyeLeft, yEye, 10);
+             ofDrawRectangle(xNose - 20, yMouth - 5, 40, 10);
 
-     ofDrawCircle(xNose, yNose, 10);
-
-     ofDrawRectangle(xNose - 20, yMouth - 5, 40, 10);
-
-     ofDrawRectangle(rect);
-
+             ofDrawRectangle(rect);
+             */
+             ofFill();
+             // Continuous spit of balls
+             addParticleAtPosition(xNose - 10, yMouth + 15);
+         }
      }
-     }
-
-
 
     // Particle System
     // A "range-for" loop.
@@ -93,15 +93,10 @@ void ofApp::draw()
         p.draw();
     }
 
-
-    // Continuous spit of balls
-    //addParticleAtPosition(ofGetMouseX(), ofGetMouseY());
-
-
-
-
     captureTexture.draw(ofGetMouseX(), ofGetMouseY(), 200, 200);
 }
+
+
 
 
 
@@ -120,9 +115,9 @@ void ofApp::mousePressed(int x, int y, int button) {
     // Upload the captured pixels to the texture.
     captureTexture.loadData(capturePixels);
 
-
-
 }
+
+
 
 
 void ofApp::addParticleAtPosition(float x, float y) {
@@ -140,8 +135,10 @@ void ofApp::addParticleAtPosition(float x, float y) {
     particles.push_back(p);
 
 
-
 }
+
+
+
 
 
 // Take a screen shot!

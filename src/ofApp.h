@@ -34,6 +34,3 @@ public:
     int noOfImages = 0;
 };
 
-
-
-};
